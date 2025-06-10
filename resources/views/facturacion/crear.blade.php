@@ -40,10 +40,9 @@
 
         <div class="col-6 text-center">
          <h5>Santos Alberto Guerrero Beltran</h5>
-            <h4>MOTEL XANADU</h4>
-            <H5>Carretera a los Naranjos</H5>
-            <H5>Cantón Cantarrana, Santa Ana</H5>
-            <H5>Tel.: 2429-0920</H5>
+            <h4>MOTEL SANTORINI</h4>
+            <H5>17 Av. Sur y Calle Santa Cruz #7</H5>
+            <H5>Callejon Ferrocaril, Santa Ana</H5>
 
 
         </div>
