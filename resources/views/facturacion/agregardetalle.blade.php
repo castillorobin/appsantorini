@@ -263,11 +263,12 @@
 
     </table>
                     
+    <input type="text" class="form-control" id="codigo" name="codigo" value="{{ $cotiactual[0]->codigo}}" hidden>
 <hr>
 <a href="/facturacion">
                     <button type="button" class="btn btn-danger">Cancelar</button> </a>
 &nbsp; &nbsp; &nbsp;
-<a href="https://xanadusistema.com/consumidordte.php">
+<a href="/facturacion/generardteconsumidor/{{ $cotiactual[0]->codigo}}">
                     <button type="button" class="btn btn-primary">Facturar</button></a>
 
                

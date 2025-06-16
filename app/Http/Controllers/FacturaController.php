@@ -27,7 +27,7 @@ class FacturaController extends Controller
     {
         /* $marca=Cotidetalle::all();
      foreach($marca as $mar){
-        $mar->delete();
+        $mar->delete(); 
      }*/
 
         //$clientes = Cliente::all();
@@ -169,6 +169,16 @@ class FacturaController extends Controller
         $productos = Producto::all();
        return view('facturacion.agregardetalle', compact('clientes', 'productos', 'detalles'));
     }
+
+     public function generardteconsumidor($codigo)
+    {
+        $factura = Factura::where('codigo', $codigo)->get();
+        $detalles = Cotidetalle::where('coticode', $codigo)->get();
+
+        $actual = $factura[0]->codigo;
+        return view('facturacion.generardteconsumidor', compact('actual'));
+    }
+
 
     /**
      * Store a newly created resource in storage.
