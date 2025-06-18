@@ -175,8 +175,10 @@ class FacturaController extends Controller
         $factura = Factura::where('codigo', $codigo)->get();
         $detalles = Cotidetalle::where('coticode', $codigo)->get();
 
+        $cliente = Cliente::where('nombre', $factura[0]->cliente)->get() ;
+
         $actual = $factura[0]->codigo;
-        return view('facturacion.generardteconsumidor', compact('actual'));
+        return view('facturacion.generardteconsumidor', compact('actual', 'detalles', 'cliente'));
     }
 
 

@@ -1,10 +1,8 @@
-
 <?php
-
-
 ini_set('display_errors', 1);
 ini_set('display_startup_errors', 1);
 error_reporting(E_ALL);
+
 
 
 function getGUID(){
@@ -155,38 +153,19 @@ class DocumentoTributarioElectronico {
     public $otrosDocumentos;
     public $apendice;
 }
-date_default_timezone_set('America/El_Salvador');
-$fecha_actual = date("Y-m-d");
-$hora_actual = date("h:i:s");
-/*
-$nombre = $cliente[0]->Nombre;
-$direccion= $cliente[0]->Direccion;
-$telefono = $cliente[0]->Telefono;
-$correo = $cliente[0]->Correo;
-*/
- //echo $nombre;
 
-//echo $fecha_actual;
+dd($fecha_actual = date("d/m/Y"));
 
 // Función para crear el DTE
-function crearDTE($fecha_actual, $cliente, $hora_actual) {
-
-  //  global $fecha_actual;
-   // global $hora_actual;
-   // global $nombre, $direccion, $telefono, $correo;
-//$fecha_actual = "Holllla";
-
-//echo $cliente[0]->Nombre;
-   // echo $fecha_actual;
-    
+function crearDTE() {
     $dte = new DocumentoTributarioElectronico();
     
     // Configurar identificación
     $dte->identificacion = new Identificacion();
     $dte->identificacion->numeroControl = "DTE-01-F0000001-000080000000". rand ( 100 , 999 );
     $dte->identificacion->codigoGeneracion = getGUID(); //"7DEEF1AF-7DF7-436F-B9AE-47CA46035F1B";
-    $dte->identificacion->fecEmi = $fecha_actual;
-    $dte->identificacion->horEmi = $hora_actual;
+    $dte->identificacion->fecEmi = "2025-06-10";
+    $dte->identificacion->horEmi = "07:40:25";
     
     // Configurar emisor
     $dte->emisor = new Emisor();
@@ -206,24 +185,22 @@ function crearDTE($fecha_actual, $cliente, $hora_actual) {
     $dte->emisor->codEstable = null;
     $dte->emisor->codPuntoVentaMH = null;
     $dte->emisor->codPuntoVenta = null;
-    $dte->emisor->correo = "clientesfrecuentes01@gmail.com";
+    $dte->emisor->correo = "cliente@clientesfrecuentes.com";
 
     // Configurar receptor
     $dte->receptor = new Receptor();
     $dte->receptor->tipoDocumento = "37";
     $dte->receptor->numDocumento = "012345678";
     $dte->receptor->nrc = null;
-    $dte->receptor->nombre = $cliente[0]->Nombre;
+    $dte->receptor->nombre = "CLIENTE FRECUENTE";
     $dte->receptor->codActividad = "41001";
-    $dte->receptor->descActividad = "Clientes Frecuentes";
+    $dte->receptor->descActividad = "CONSTRUCCIÓN DE EDIFICIOS";
     $dte->receptor->direccion = new Direccion();
     $dte->receptor->direccion->departamento = "02";
-    $dte->receptor->direccion->municipio = "01";
-    $dte->receptor->direccion->complemento = $cliente[0]->Direccion;
-    $dte->receptor->telefono = $cliente[0]->Telefono;
-    $dte->receptor->correo = $cliente[0]->Correo;
-
-   
+    $dte->receptor->direccion->municipio = "10";
+    $dte->receptor->direccion->complemento = "Av. Las Magnolias #456, San Miguel";
+    $dte->receptor->telefono = "2666-7788";
+    $dte->receptor->correo = "poncemarito2019@gmail.com";
 
     // Configurar cuerpo del documento
     $item = new ItemDocumento();
@@ -290,13 +267,9 @@ function crearDTE($fecha_actual, $cliente, $hora_actual) {
     $dte->extension->placaVehiculo = "P123-456";
 
     return $dte;
-    
 }
-//$dte = crearDTE($fecha_actual, $cliente, $hora_actual);
-
 
 // Función para enviar DTE a la API
-
 function enviarDTEAPI($dte) {
     $datos = [
         'Usuario' => "05090211591010",
@@ -309,8 +282,8 @@ function enviarDTEAPI($dte) {
         'CodigoGeneracion' => $dte->identificacion->codigoGeneracion,
         'NumControl' => $dte->identificacion->numeroControl,
         'VersionDte' => 1,
-        //'CorreoCliente' => "clientesfrecuentes01@gmail.com"
-        'CorreoCliente' => "poncemarito2019@gmail.com"
+        'CorreoCliente' => "clientesfrecuentes01@gmail.com"
+        //'CorreoCliente' => "poncemarito2019@gmail.com"
     ];
 
    // echo "<pre>JSON enviado a la API:<br>" . json_encode($datos, JSON_PRETTY_PRINT) . "</pre>";
@@ -345,7 +318,7 @@ function enviarDTEAPI($dte) {
 // Iniciar proceso automáticamente al abrir el archivo desde el navegador
 try {
     echo "Iniciando generación de DTE...<br>";
-    $dte = crearDTE($fecha_actual, $cliente, $hora_actual);
+    $dte = crearDTE();
     echo "DTE generado correctamente.<br>";
     echo "Iniciando transferencia a la API...<br>";
     $respuestaAPI = enviarDTEAPI($dte);
@@ -361,7 +334,5 @@ try {
 } catch (Exception $e) {
     echo "Error: " . $e->getMessage() . "<br>";
 }
-//header("Refresh: 3; url=https://motelsantorini.site/facturacion");
-
-
+header("Refresh: 3; url=https://motelsantorini.site/facturacion");
 ?>
