@@ -169,7 +169,7 @@ $correo = $cliente[0]->Correo;
 //echo $fecha_actual;
 
 // Función para crear el DTE
-function crearDTE($fecha_actual, $cliente, $hora_actual) {
+function crearDTE($fecha_actual, $cliente, $hora_actual, $detalles) {
 
   //  global $fecha_actual;
    // global $hora_actual;
@@ -224,6 +224,8 @@ function crearDTE($fecha_actual, $cliente, $hora_actual) {
     $dte->receptor->correo = $cliente[0]->Correo;
 
    
+foreach ($detalles as $detalle) {
+   
 
     // Configurar cuerpo del documento
     $item = new ItemDocumento();
@@ -234,7 +236,7 @@ function crearDTE($fecha_actual, $cliente, $hora_actual) {
     $item->codigo = "1";
     $item->codTributo = null;
     $item->uniMedida = 1;
-    $item->descripcion = "Habitacion";
+    $item->descripcion = $detalle->descripcion;
     $item->precioUni = 7;
     $item->montoDescu = 0;
     $item->ventaNoSuj = 0;
@@ -245,7 +247,7 @@ function crearDTE($fecha_actual, $cliente, $hora_actual) {
     $item->noGravado = 0;
     $item->ivaItem = 0.80;
     $dte->cuerpoDocumento = [$item];
-
+}
     // Configurar resumen
     $dte->resumen = new Resumen();
     $dte->resumen->totalNoSuj = 0.00;
@@ -345,7 +347,7 @@ function enviarDTEAPI($dte) {
 // Iniciar proceso automáticamente al abrir el archivo desde el navegador
 try {
     echo "Iniciando generación de DTE...<br>";
-    $dte = crearDTE($fecha_actual, $cliente, $hora_actual);
+    $dte = crearDTE($fecha_actual, $cliente, $hora_actual, $detalles);
     echo "DTE generado correctamente.<br>";
     echo "Iniciando transferencia a la API...<br>";
     $respuestaAPI = enviarDTEAPI($dte);
