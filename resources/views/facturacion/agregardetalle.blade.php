@@ -53,7 +53,7 @@
             <h5 >NIT 0509-021159-101-0</h5>
         </div>  
 
-
+ 
 </div>
 
         <div class="row my-2">
@@ -222,7 +222,7 @@
             <button type="button" class="btn btn-danger">Borrar</button>
             </a>
             @if($detalles[$i]->descripcion == "Habitacion")
-        {{ $turismo= $detalles[$i]->preciouni * 0.05 }}
+       <input type="text" value="{{ $turismo= ($detalles[$i]->preciouni / 1.05)* 0.05 }}"> 
         @endif
         </td>
         </tr>
