@@ -221,7 +221,7 @@
             <a href="/facturacion/borrardet/{{ $detalles[$i]->id }}">
             <button type="button" class="btn btn-danger">Borrar</button>
             </a>
-            @if($detalles[$i]->descripcion == "Habitacion")
+            @if($detalles[$i]->descripcion == 'Habitacion')
        <input type="text" value="{{ $turismo= ($detalles[$i]->preciouni / 1.05)* 0.05 }}" hidden> 
         @endif
         </td>
