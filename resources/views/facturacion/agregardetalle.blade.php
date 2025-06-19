@@ -218,7 +218,7 @@
     
         <td class="opciones text-center" style="">
            
-            <a href="/cotizacion/borrardet/{{ $detalles[$i]->id }}">
+            <a href="/facturacion/borrardet/{{ $detalles[$i]->id }}">
             <button type="button" class="btn btn-danger">Borrar</button>
             </a>
             @if($detalles[$i]->descripcion == "Habitacion")

@@ -173,11 +173,16 @@ class FacturaController extends Controller
 
      public function borrardet($id)
     {
+        $detalle = Cotidetalle::where('id', $id)->get();
+        //dd($detalle);
+        $codigo = $detalle[0]->coticode;
         Cotidetalle::find($id)->delete();
-        $detalles = Cotidetalle::all();
+        $detalles = Cotidetalle::where('coticode', $codigo)->get();
        $clientes = Cliente::all();
         $productos = Producto::all();
-       return view('facturacion.agregardetalle', compact('clientes', 'productos', 'detalles'));
+
+        $cotiactual = Factura::where('codigo', $codigo)->get();
+       return view('facturacion.agregardetalle', compact('clientes', 'productos', 'detalles', 'cotiactual'));
     }
 
      public function generardteconsumidor($codigo)
