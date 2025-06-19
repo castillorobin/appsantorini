@@ -363,7 +363,7 @@ try {
 } catch (Exception $e) {
     echo "Error: " . $e->getMessage() . "<br>";
 }
-//header("Refresh: 3; url=https://motelsantorini.site/facturacion");
-
+header("Refresh: 3; url=https://motelsantorini.site/facturacion");
+//header("Refresh: 3; url=http://127.0.0.1:8000/facturacion");
 
 ?>
