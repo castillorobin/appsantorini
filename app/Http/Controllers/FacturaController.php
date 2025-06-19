@@ -8,6 +8,7 @@ use App\Models\Producto;
 use App\Models\Cotidetalle;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
+use DateTime;
 
 class FacturaController extends Controller
 {
@@ -95,11 +96,20 @@ class FacturaController extends Controller
             $date = $date->format('Y');
             $codigo = "$date".$idcompr;
         
-            $newDate = date("Y/m/d", strtotime($request->get('fecha')));
+            //$newDate = date("Y-m-d", strtotime($request->get('fecha')));
+         //   $newDate = DateTime::createFromFormat('Y-m-d', date('Y-m-d', strtotime($request->get('fecha'))));
+
+
+
+
+
+        //  dd($newDate->format('Y-m-d'));
+
+
         $cotienca = new Factura();
         $cotienca->cliente = $request->get('cliente');
         $cotienca->codigo = $codigo;
-        $cotienca->fecha = $newDate;
+       // $cotienca->fecha = $newDate->format('Y-m-d');
         
         $cotienca->DUI = $request->get('dui');
         $cotienca->direccion = $request->get('direccion');
