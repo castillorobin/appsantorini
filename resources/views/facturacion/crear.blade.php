@@ -266,10 +266,15 @@ function totalizar() {
     var canti = document.getElementById("cantidad").value ;
     var preci = document.getElementById('precio').value ;
     if (deta == "Habitacion") {
-        var impu2 = (preci / 1.05) * 0.05 ;
-        impu3 = impu2.toFixed(2);
+        var impu2 = preci / 1.18 ;
+        var impu3 = impu2 * 0.13 ;
+        var impu5 = impu2 + impu3;
+        var impu4 = impu2 * 0.05 ;
 
-        impu = parseFloat(impu3);
+        impu6 = impu4.toFixed(2);
+       var impu = parseFloat(impu6);
+       // var impu = impu4 ;
+
         document.getElementById("total").value = preci - impu ;
     }else{
         document.getElementById("total").value = preci * canti ;

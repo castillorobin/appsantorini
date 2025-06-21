@@ -56,7 +56,7 @@
  
 </div>
 
-        <div class="row my-2">
+            <div class="row my-2">
 
             <div class="col-3">
                 <div class="input-group">
@@ -357,5 +357,3 @@ document.getElementById("unirecarga").value = total ;
 
 </script>
 @endsection
-
-

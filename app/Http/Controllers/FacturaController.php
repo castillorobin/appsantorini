@@ -89,8 +89,7 @@ class FacturaController extends Controller
     }
     public function detalleconcabe(Request $request)
     {
-
-        $ultimoid = Factura::latest('id')->first();
+$ultimoid = Factura::latest('id')->first();
        $idcompr = $ultimoid->id + 1;
        $date = Carbon::now();
             $date = $date->format('Y');
@@ -116,7 +115,6 @@ class FacturaController extends Controller
         
 
         $cotienca->save();
-
         $cotiactual = Factura::where('codigo', $codigo)->get();
 
        $linea = new Cotidetalle();
