@@ -24,6 +24,98 @@ function getGUID(){
 }
 
 
+function numeroALetras($numero) {
+    $unidad = [
+        '', 'uno', 'dos', 'tres', 'cuatro', 'cinco', 'seis', 'siete', 'ocho', 'nueve',
+        'diez', 'once', 'doce', 'trece', 'catorce', 'quince',
+        'dieciséis', 'diecisiete', 'dieciocho', 'diecinueve', 'veinte'
+    ];
+
+    $decenas = [
+        '', '', 'veinti', 'treinta', 'cuarenta', 'cincuenta',
+        'sesenta', 'setenta', 'ochenta', 'noventa'
+    ];
+
+    $centenas = [
+        '', 'ciento', 'doscientos', 'trescientos', 'cuatrocientos',
+        'quinientos', 'seiscientos', 'setecientos', 'ochocientos', 'novecientos'
+    ];
+
+    if ($numero == 0) return 'Cero dólares 00/100';
+
+    $entero = floor($numero);
+    $centavos = round(($numero - $entero) * 100);
+
+    $letras = '';
+
+    if ($entero >= 1000000) {
+        $millones = floor($entero / 1000000);
+        $letras .= numeroALetras($millones) . ' millón' . ($millones > 1 ? 'es' : '') . ' ';
+        $entero %= 1000000;
+    }
+
+    if ($entero >= 1000) {
+        $miles = floor($entero / 1000);
+        if ($miles == 1) {
+            $letras .= 'mil ';
+        } else {
+            $letras .= numeroALetras($miles) . ' mil ';
+        }
+        $entero %= 1000;
+    }
+
+    if ($entero > 0) {
+        if ($entero == 100) {
+            $letras .= 'cien';
+        } else {
+            $c = floor($entero / 100);
+            $d = floor(($entero % 100) / 10);
+            $u = $entero % 10;
+
+            $letras .= $centenas[$c];
+
+            if ($d == 1 || ($d == 2 && $u == 0)) {
+                $letras .= ($c > 0 ? ' ' : '') . $unidad[$d * 10 + $u];
+            } elseif ($d == 2) {
+                $letras .= 'i' . $unidad[$u];
+            } elseif ($d > 2) {
+                $letras .= ($c > 0 ? ' ' : '') . $decenas[$d];
+                if ($u > 0) {
+                    $letras .= ' y ' . $unidad[$u];
+                }
+            } elseif ($u > 0) {
+                $letras .= ($c > 0 ? ' ' : '') . $unidad[$u];
+            }
+        }
+    }
+
+    $letras = trim(ucfirst($letras)) . ' dólares';
+
+    $letras .= ' con ' . str_pad($centavos, 2, '0', STR_PAD_LEFT) . '/100';
+
+    return $letras;
+}
+
+function sacarivas($detalles){
+    $iva = 0;
+    foreach ($detalles as $detalle) {
+        $iva += $detalle->preciouni;
+
+    }
+   $ivatotal = (($iva / 1.13) * 0.13);
+    return $ivatotal;
+}
+
+function sacartotal($detalles){
+    $total = 0;
+    foreach ($detalles as $detalle) {
+        $total += $detalle->preciouni;
+
+    }
+    return $total;
+}
+
+
 // Clases para estructurar el DTE
 class Identificacion {
     public $version = 1;
@@ -158,32 +250,16 @@ class DocumentoTributarioElectronico {
 date_default_timezone_set('America/El_Salvador');
 $fecha_actual = date("Y-m-d");
 $hora_actual = date("h:i:s");
-/*
-$nombre = $cliente[0]->Nombre;
-$direccion= $cliente[0]->Direccion;
-$telefono = $cliente[0]->Telefono;
-$correo = $cliente[0]->Correo;
-*/
- //echo $nombre;
-
-//echo $fecha_actual;
 
 // Función para crear el DTE
 function crearDTE($fecha_actual, $cliente, $hora_actual, $detalles) {
 
-  //  global $fecha_actual;
-   // global $hora_actual;
-   // global $nombre, $direccion, $telefono, $correo;
-//$fecha_actual = "Holllla";
 
-//echo $cliente[0]->Nombre;
-   // echo $fecha_actual;
-    
     $dte = new DocumentoTributarioElectronico();
     
     // Configurar identificación
     $dte->identificacion = new Identificacion();
-    $dte->identificacion->numeroControl = "DTE-01-F0000001-000080000000". rand ( 100 , 999 );
+    $dte->identificacion->numeroControl = "DTE-01-F0000002-000080000000". rand ( 100 , 999 );
     $dte->identificacion->codigoGeneracion = getGUID(); //"7DEEF1AF-7DF7-436F-B9AE-47CA46035F1B";
     $dte->identificacion->fecEmi = $fecha_actual;
     $dte->identificacion->horEmi = $hora_actual;
@@ -195,13 +271,13 @@ function crearDTE($fecha_actual, $cliente, $hora_actual, $detalles) {
     $dte->emisor->nombre = "Santos Guerrero";
     $dte->emisor->codActividad = "55101";
     $dte->emisor->descActividad = "ALOJAMIENTO PARA ESTANCIAS CORTAS";
-    $dte->emisor->nombreComercial = "AUTOMOTEL XANADU";
+    $dte->emisor->nombreComercial = "MOTEL SANTORINI";
     $dte->emisor->tipoEstablecimiento = "02";
     $dte->emisor->direccion = new Direccion();
     $dte->emisor->direccion->departamento = "02";
     $dte->emisor->direccion->municipio = "01";
-    $dte->emisor->direccion->complemento = "CARRETERA A LOS NARANJOS, SANTA ANA CENTRO";
-    $dte->emisor->telefono = "2309-3642";
+    $dte->emisor->direccion->complemento = "17 AV. Sur y Calle Santa Cruz #7, Callejon Ferrocarril";
+    $dte->emisor->telefono = "2440-9776";
     $dte->emisor->codEstableMH = null;
     $dte->emisor->codEstable = null;
     $dte->emisor->codPuntoVentaMH = null;
@@ -223,57 +299,68 @@ function crearDTE($fecha_actual, $cliente, $hora_actual, $detalles) {
     $dte->receptor->telefono = $cliente[0]->Telefono;
     $dte->receptor->correo = $cliente[0]->Correo;
 
-   
-foreach ($detalles as $detalle) {
+$cuerpo = [];
+$totalGravada = 0;
+$itemnum = 1;
+    foreach ($detalles as $detalle) {
    
 
     // Configurar cuerpo del documento
     $item = new ItemDocumento();
-    $item->numItem = 1;
+    $item->numItem = $itemnum;
+    $itemnum += 1;
     $item->tipoItem = 1;
     $item->numeroDocumento = null;
-    $item->cantidad = 1;
+    $item->cantidad = $detalle->cantidad;
     $item->codigo = "1";
     $item->codTributo = null;
     $item->uniMedida = 1;
     $item->descripcion = $detalle->descripcion;
-    $item->precioUni = 7;
+    $item->precioUni = round($detalle->preciouni, 2);
     $item->montoDescu = 0;
     $item->ventaNoSuj = 0;
     $item->ventaExenta = 0;
-    $item->ventaGravada = 7;
-    $item->tributos = null;
-    $item->psv = 7;
+    $item->ventaGravada = round($detalle->preciouni, 2);
+    $totalGravada += $item->ventaGravada;
+    $cuerpo[] = $item;
+    $item->psv = round($detalle->preciouni, 2);
     $item->noGravado = 0;
-    $item->ivaItem = 0.80;
+    $item->ivaItem = round(($detalle->preciouni / 1.13) * 0.13, 2);  
     $dte->cuerpoDocumento = [$item];
 }
+$dte->cuerpoDocumento = $cuerpo;
+
+
     // Configurar resumen
     $dte->resumen = new Resumen();
     $dte->resumen->totalNoSuj = 0.00;
     $dte->resumen->totalExenta = 0.00;
-    $dte->resumen->totalGravada = 7;
-    $dte->resumen->subTotalVentas = 7;
+    $dte->resumen->totalGravada = round($totalGravada, 2);
+   //dd(round(sacartotal($detalles), 2));
     $dte->resumen->descuNoSuj = 0.00;
+    $dte->resumen->subTotalVentas = round($totalGravada, 2);
     $dte->resumen->descuExenta = 0.00;
     $dte->resumen->descuGravada = 0.00;
     $dte->resumen->porcentajeDescuento = 0.00;
     $dte->resumen->totalDescu = 0.00;
-    $dte->resumen->subTotal = 7;
+    $dte->resumen->subTotal = round($totalGravada, 2);
     $dte->resumen->ivaRete1 = 0.00;
-   // $dte->resumen->ivaPerci1 = 0.00;
     $dte->resumen->reteRenta = 0.00;
-    $dte->resumen->montoTotalOperacion = 7;
+    $dte->resumen->montoTotalOperacion = round($totalGravada, 2);
     $dte->resumen->totalNoGravado = 0.00;
-    $dte->resumen->totalPagar = 7;
-    $dte->resumen->totalLetras = "SIETE DÓLARES 65/100";
-    $dte->resumen->totalIva = 0.80;
+    $dte->resumen->totalPagar = round($totalGravada, 2);
+    $total = round($totalGravada, 2);
+    //$dte->resumen->totalLetras = " DÓLARES 00/100";
+    $dte->resumen->totalLetras = numeroALetras($total);
+    $dte->resumen->totalIva = round(sacarivas($detalles), 2);
+
     $dte->resumen->saldoFavor = 0.00;
     $dte->resumen->condicionOperacion = 1;
+   
     $dte->resumen->pagos = [
         [
             "codigo"=>"01",
-            "montoPago"=>7,
+            "montoPago"=>$totalGravada,
             "referencia"=>"0000",
             "periodo"=>null,
             "plazo"=>null
@@ -284,12 +371,12 @@ foreach ($detalles as $detalle) {
 
     // Configurar extensión
     $dte->extension = new Extension();
-    $dte->extension->nombEntrega = "Juan Pérez";
-    $dte->extension->docuEntrega = "06143110171029";
-    $dte->extension->nombRecibe = "Carlos López";
-    $dte->extension->docuRecibe = "04332010181019";
-    $dte->extension->observaciones = "Entrega en bodega principal";
-    $dte->extension->placaVehiculo = "P123-456";
+    $dte->extension->nombEntrega = null;
+    $dte->extension->docuEntrega = null;
+    $dte->extension->nombRecibe = null;
+    $dte->extension->docuRecibe = null;
+    $dte->extension->observaciones = null;
+    $dte->extension->placaVehiculo = null;
 
     return $dte;
     
