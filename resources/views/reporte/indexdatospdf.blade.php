@@ -15,7 +15,7 @@
 </head>
 <body>
     <div style="width: 1000px; text-align: center;">
-    <h1 style="">Automotel Xanadu</h1>
+    <h1 style="">Motel Santorini</h1>
     </div>
     
     <input type="text" value=" {{ $total = 0}}" style="display: none;">
@@ -25,8 +25,7 @@
                             <tr >
                                 
                                 <th >Fecha</th>
-                                <th >Vehiculo</th>
-                                <th >Placa</th>
+                                
                                 <th >Habitacion</th>
                                 <th >Entrada</th>
                                 <th >Salida</th>
@@ -42,8 +41,7 @@
                             <tr >
                             <td>{{ date('d/m/Y', strtotime($controles[$i]->created_at))  }}</td>
                            
-                            <td>{{ $controles[$i]->vehiculo }}</td>
-                            <td>{{ $controles[$i]->placa }}</td>
+                            
                             <td>{{ $controles[$i]->habitacion }}</td>
                             <td>{{ $controles[$i]->entrada }}</td>
                             <td>{{ $controles[$i]->salida }}</td>

@@ -28,9 +28,8 @@
                         <thead >
                             <tr >
                                 
-                                <th scope="col">ID</th>
-                                <th scope="col">Vehiculo</th>
-                                <th scope="col">Placa</th>
+                               
+                            
                                 <th scope="col">Habitacion</th>
                                 <th scope="col">Entrada</th>
                                 
@@ -44,10 +43,8 @@
                             @if($controles[$i]->estado == 1)
                             
                             <tr >
-                            <td>{{ $controles[$i]->id }}</td>
                            
-                            <td>{{ $controles[$i]->vehiculo }}</td>
-                            <td>{{ $controles[$i]->placa }}</td>
+                           
                             <td>{{ $controles[$i]->habitacion }}</td>
                             <td>{{ $controles[$i]->entrada }}</td>
                        

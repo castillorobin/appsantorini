@@ -37,17 +37,6 @@
                     
 
                     <div class="mb-3 col-4">
-                        <label class="form-label">Vehiculo</label>
-                        <input type="text" class="form-control" id="vehiculo" name="vehiculo" placeholder="Ingrese el vehiculo">
-                    </div>
-
-                    <div class="mb-3 col-4">
-                        <label class="form-label"># de placa</label>
-                        <input type="text" class="form-control" id="placa" name="placa" value="P">
-                    </div>
-
-
-                    <div class="mb-3 col-4">
                         <label class="form-label"># de Habitacion</label>
                         <select class="form-control js-example-basic-single produ" name="habitacion" id="habitacion" >
                             @foreach($habitaciones as $producto)

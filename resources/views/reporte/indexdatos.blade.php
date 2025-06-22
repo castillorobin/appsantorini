@@ -58,8 +58,7 @@
                             <tr >
                                 
                                 <th scope="col">Fecha</th>
-                                <th scope="col">Vehiculo</th>
-                                <th scope="col">Placa</th>
+                                
                                 <th scope="col">Habitacion</th>
                                 <th scope="col">Entrada</th>
                                 <th scope="col">Salida</th>
@@ -75,8 +74,7 @@
                             <tr >
                             <td>{{ date('d/m/Y', strtotime($controles[$i]->fecha))  }}</td>
                            
-                            <td>{{ $controles[$i]->vehiculo }}</td>
-                            <td>{{ $controles[$i]->placa }}</td>
+                            
                             <td>{{ $controles[$i]->habitacion }}</td>
                             <td>{{ $controles[$i]->entrada }}</td>
                             <td>{{ $controles[$i]->salida }}</td>

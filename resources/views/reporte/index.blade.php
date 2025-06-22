@@ -58,8 +58,7 @@
                         <thead >
                             <tr >
                                 <th scope="col">Fecha</th>
-                                <th scope="col">Vehiculo</th>
-                                <th scope="col">Placa</th>
+                               
                                 <th scope="col">Habitacion</th>
                                 <th scope="col">Entrada</th>
                                 <th scope="col">Tarifa</th>
@@ -68,8 +67,7 @@
                         </thead>
                         <tbody>      
                             <tr>
-                            <td></td>
-                            <td></td>
+                           
                             <td></td>
                             <td></td>
                             <td></td>
