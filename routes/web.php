@@ -63,6 +63,12 @@ Route::get('/facturacion/borrardet/{id}', [App\Http\Controllers\FacturaControlle
 Route::get('/facturacion/generardteconsumidor/{id}', [App\Http\Controllers\FacturaController::class, 'generardteconsumidor'])->name('generardteconsumidor');
  
 
+Route::get('/facturacion/productos', [App\Http\Controllers\FacturaController::class, 'productos'])->name('productos');
+Route::get('/facturacion/detalleconcabeproducto', [App\Http\Controllers\FacturaController::class, 'detalleconcabeproducto'])->name('detalleconcabeproducto');
+Route::get('/facturacion/detalleaddproducto', [App\Http\Controllers\FacturaController::class, 'detalleaddproducto'])->name('detalleaddproducto');
+Route::get('/facturacion/generardteconsumidorproducto/{id}', [App\Http\Controllers\FacturaController::class, 'generardteconsumidorproducto'])->name('generardteconsumidorproducto');
+
+
 
 // Control
 Route::get('/control', [App\Http\Controllers\ControlController::class, 'index'])->name('indexcontrol');

@@ -34,18 +34,17 @@
                 <h4>MOTEL SANTORINI</h4>
                 <H5>17 Av. Sur y Calle Santa Cruz #7</H5>
                 <H5>Callejon Ferrocaril, Santa Ana</H5>
-    
-    
+      
             </div>
      <p></p>
-            <table>
+            <table> 
                 <tbody>
                 <tr>
                     <td>
                         <span class="input-group-text border-0">Fecha: </span>
                     </td>
                     <td>
-                        <input type="text" class="form-control border-0" id="fecha" name="fecha" value="{{ $cotiactual[0]->fecha}}" readonly>
+                        <input type="text" class="form-control border-0" id="fecha" name="fecha" value="{{date('d/m/Y',strtotime($cotiactual[0]->created_at))}}" readonly>
                     </td>
                 </tr>
 
@@ -126,10 +125,13 @@
             <td>${{ $detalles[$i]->total }}</td>
             <input type="text" value="{{ $subtotal = $subtotal + $detalles[$i]->total }}" hidden>
             
-           
+                   @if($detalles[$i]->descripcion == 'Habitacion')
+       <input type="text" value="{{ $turismo= ($detalles[$i]->preciouni / 1.18) * 0.05 }}" hidden> 
+        @endif
             </tr>
             @endfor
-            <input type="text" value=" {{ $turismo= $subtotal * 0.05 }}" hidden>
+
+     
             
            
             <tr >
@@ -178,16 +180,17 @@
     </section>
     
     <script>
-        /*
+        
         window.print();
         setTimeout(saludos, 3000);
         
         function saludos(){
             window.location.href = '/facturacion';
         }
-        */
+        
         </script>
 
 
 </body>
 </html>
+

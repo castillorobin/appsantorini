@@ -25,10 +25,9 @@
                     
                 </div>
                 <div class="card-body bg-white">
-
                     
                     
-                <form action="/facturacion/detalleadd" method="get">
+                <form action="/facturacion/detalleaddproducto" method="get">
                         @csrf
                                 @method('GET')
 <div class="container">
@@ -36,7 +35,7 @@
       
     <div class="row my-3">
 
-         <div class="col-6 text-center">
+        <div class="col-6 text-center">
          <h5>Santos Alberto Guerrero Beltran</h5>
             <h4>MOTEL SANTORINI</h4>
             <H5>17 Av. Sur y Calle Santa Cruz #7</H5>
@@ -131,11 +130,22 @@
 <hr>
         <div class="row">
             <form action="" class="row g-2" method="get">
-                  
+                    <div class="mb-3 col-6">
+                        <label class="form-label">Productos</label>
+                        <select class="form-control js-example-basic-single produ" name="producto" id="producto" onChange="getComboA(this)">
+                            <option value="">Seleccionar producto</option>
+                            @foreach($productos as $producto)
+                            <option value="{{$producto->id}}">{{$producto->Nombre}}</option>
+                            
+                            
+                            @endforeach
+                            
+                        </select>
+                    </div>
                   
                     <div class=" col-3 " >
                     
-                    <button type="button" class="btn btn-primary " style="margin-top: 33px;" onClick="habitacion()">Habitacion</button>
+                    
                     
                     </div>   
              
@@ -258,7 +268,7 @@
 <a href="/facturacion">
                     <button type="button" class="btn btn-danger">Cancelar</button> </a>
 &nbsp; &nbsp; &nbsp;
-<a href="/facturacion/generardteconsumidor/{{ $cotiactual[0]->codigo}}">
+<a href="/facturacion/generardteconsumidorproducto/{{ $cotiactual[0]->codigo}}">
                     <button type="button" class="btn btn-primary">Facturar</button></a>
 
                

@@ -339,9 +339,14 @@ return [
             'icon' => 'fas fa-cart-plus',
         ],
 
-        [
-            'text' => 'Facturacion',
+         [
+            'text' => 'Facturacion Habitacion',
             'url' => 'facturacion',
+            'icon' => 'fas fa-file-invoice-dollar',
+        ],
+        [
+            'text' => 'Facturacion productos',
+            'url' => 'facturacion/productos',
             'icon' => 'fas fa-file-invoice-dollar',
         ],
         [
