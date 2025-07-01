@@ -261,7 +261,7 @@ function crearDTE($fecha_actual, $cliente, $hora_actual, $detalles) {
 
     // Identificación
     $dte->identificacion = new Identificacion();
-    $dte->identificacion->numeroControl = "DTE-01-F0000001-0000". $paradte;
+    $dte->identificacion->numeroControl = "DTE-01-S001P000-0000". $paradte;
     $dte->identificacion->codigoGeneracion = getGUID();
     $dte->identificacion->fecEmi = $fecha_actual;
     $dte->identificacion->horEmi = $hora_actual;
