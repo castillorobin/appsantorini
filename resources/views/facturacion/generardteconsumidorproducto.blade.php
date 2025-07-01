@@ -256,7 +256,7 @@ $hora_actual = date("h:i:s");
 // Función para crear el DTE
 function crearDTE($fecha_actual, $cliente, $hora_actual, $detalles) {
 
- $paradte = 90000000000 + $detalles[0]->id;
+ $paradte = 80000000000 + $detalles[0]->id;
     
     $dte = new DocumentoTributarioElectronico();
     
@@ -274,13 +274,13 @@ function crearDTE($fecha_actual, $cliente, $hora_actual, $detalles) {
     $dte->emisor->nombre = "Santos Guerrero";
     $dte->emisor->codActividad = "55101";
     $dte->emisor->descActividad = "ALOJAMIENTO PARA ESTANCIAS CORTAS";
-    $dte->emisor->nombreComercial = "AUTOMOTEL XANADU";
+    $dte->emisor->nombreComercial = "MOTEL SANTORINI";
     $dte->emisor->tipoEstablecimiento = "02";
     $dte->emisor->direccion = new Direccion();
     $dte->emisor->direccion->departamento = "02";
     $dte->emisor->direccion->municipio = "01";
-    $dte->emisor->direccion->complemento = "Carretera a los naranjos, Lotificacion San Fernando #3 Poligono B";
-    $dte->emisor->telefono = "2429-0920";
+    $dte->emisor->direccion->complemento = "17 AV. SUR Y CALLE SANTA CRUZ, # 7, CALLEJON FERROCARRIL";
+    $dte->emisor->telefono = "2440-9776";
     $dte->emisor->codEstableMH = null;
     $dte->emisor->codEstable = null;
     $dte->emisor->codPuntoVentaMH = null;
@@ -305,6 +305,7 @@ function crearDTE($fecha_actual, $cliente, $hora_actual, $detalles) {
 $cuerpo = [];
 $totalGravada = 0;
 $itemnum = 1;
+$totaliv = 0;
     foreach ($detalles as $detalle) {
    
 
@@ -323,12 +324,13 @@ $itemnum = 1;
     $item->montoDescu = 0;
     $item->ventaNoSuj = 0;
     $item->ventaExenta = 0;
-    $item->ventaGravada = round($detalle->preciouni, 2);
+    $item->ventaGravada = round($detalle->preciouni * $detalle->cantidad, 2);
     $totalGravada += $item->ventaGravada;
     $cuerpo[] = $item;
-    $item->psv = round($detalle->preciouni, 2);
+    $item->psv = $item->ventaGravada;
     $item->noGravado = 0;
-    $item->ivaItem = round(($detalle->preciouni / 1.13) * 0.13, 2);  
+    $item->ivaItem = round(($item->ventaGravada / 1.13) * 0.13, 2);  
+    $totaliv += $item->ivaItem;
     $dte->cuerpoDocumento = [$item];
 }
 $dte->cuerpoDocumento = $cuerpo;
@@ -355,10 +357,11 @@ $dte->cuerpoDocumento = $cuerpo;
     $total = round($totalGravada, 2);
     //$dte->resumen->totalLetras = " DÓLARES 00/100";
     $dte->resumen->totalLetras = numeroALetras($total);
-    $dte->resumen->totalIva = round(sacarivas($detalles), 2);
+    $dte->resumen->totalIva = round($totaliv, 2);
 
     $dte->resumen->saldoFavor = 0.00;
     $dte->resumen->condicionOperacion = 1;
+   
    
     $dte->resumen->pagos = [
         [
@@ -396,7 +399,7 @@ function enviarDTEAPI($dte) {
         'Ambiente' => '01',
         'DteJson' => json_encode($dte),
         'Nit' => "005207550",
-        'PasswordPrivado' => "20Xanadu25.",
+        'PasswordPrivado' => "25Xanadu20.",
         'TipoDte' => '01',
         'CodigoGeneracion' => $dte->identificacion->codigoGeneracion,
         'NumControl' => $dte->identificacion->numeroControl,
@@ -457,4 +460,4 @@ try {
 
 ?>
 <p></p>
-<a href="/facturacion/verpdf/{{ $detalles[0]->coticode}}" class="btn btn-primary">Imprimir</a>
+<a href="/facturacion/verpdf/{{ $detalles[0]->coticode}}" class="btn btn-primary">Imprimir</a> &nbsp; &nbsp; &nbsp; <a href="/facturacion" class="btn btn-danger">Regresar </a>

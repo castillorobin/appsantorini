@@ -255,7 +255,7 @@ $hora_actual = date("h:i:s");
 
 // Función para crear el DTE
 function crearDTE($fecha_actual, $cliente, $hora_actual, $detalles) {
-    $paradte = 90000000000 + $detalles[0]->id;
+    $paradte = 80000000000 + $detalles[0]->id;
     
     $dte = new DocumentoTributarioElectronico();
 
@@ -273,13 +273,13 @@ function crearDTE($fecha_actual, $cliente, $hora_actual, $detalles) {
     $dte->emisor->nombre = "Santos Guerrero";
     $dte->emisor->codActividad = "55101";
     $dte->emisor->descActividad = "ALOJAMIENTO PARA ESTANCIAS CORTAS";
-    $dte->emisor->nombreComercial = "AUTOMOTEL XANADU";
+    $dte->emisor->nombreComercial = "MOTEL SANTORINI";
     $dte->emisor->tipoEstablecimiento = "02";
     $dte->emisor->direccion = new Direccion();
     $dte->emisor->direccion->departamento = "02";
     $dte->emisor->direccion->municipio = "01";
-    $dte->emisor->direccion->complemento = "Carretera a los naranjos, Lotificacion San Fernando #3 Poligono B";
-    $dte->emisor->telefono = "2429-0920";
+    $dte->emisor->direccion->complemento = "17 AV. SUR Y CALLE SANTA CRUZ, # 7, CALLEJON FERROCARRIL";
+    $dte->emisor->telefono = "2440-9776";
     $dte->emisor->correo = "clientesfrecuentes01@gmail.com";
 
     // Receptor
@@ -403,7 +403,7 @@ function enviarDTEAPI($dte) {
         'Ambiente' => '01',
         'DteJson' => json_encode($dte),
         'Nit' => "005207550",
-        'PasswordPrivado' => "20Xanadu25.",
+        'PasswordPrivado' => "25Xanadu20.",
         'TipoDte' => '01',
         'CodigoGeneracion' => $dte->identificacion->codigoGeneracion,
         'NumControl' => $dte->identificacion->numeroControl,
@@ -466,4 +466,4 @@ try {
 
 ?>
 <p></p>
-<a href="/facturacion/verpdf/{{ $detalles[0]->coticode}}" class="btn btn-primary">Imprimir</a>
+<a href="/facturacion/verpdf/{{ $detalles[0]->coticode}}" class="btn btn-primary">Imprimir</a> &nbsp; &nbsp; &nbsp; <a href="/facturacion" class="btn btn-danger">Regresar </a>
