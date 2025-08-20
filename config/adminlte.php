@@ -364,6 +364,18 @@ return [
             'url' => 'reporte',
             'icon' => 'fas fa-truck',
         ],
+         [
+            'text' => 'Adminsitrar DTEs',
+            'url' => '/dtes',
+            'icon' => 'fas fa-truck',
+        ],
+         [
+            'text' => 'Contingencia',
+            'url' => '/contingencia',
+            'icon' => 'fas fa-truck',
+        ],
+
+
 
        
         
