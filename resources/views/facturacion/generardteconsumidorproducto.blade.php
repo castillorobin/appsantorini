@@ -1,6 +1,6 @@
 <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
 <?php
-
+use App\Models\DocumentoDTE;
 
 ini_set('display_errors', 1);
 ini_set('display_startup_errors', 1);
@@ -399,12 +399,14 @@ function enviarDTEAPI($dte) {
         'Ambiente' => '01',
         'DteJson' => json_encode($dte),
         'Nit' => "005207550",
+        //'PasswordPrivado' => "20Xanadu25.",
         'PasswordPrivado' => "25Xanadu20.",
         'TipoDte' => '01',
         'CodigoGeneracion' => $dte->identificacion->codigoGeneracion,
         'NumControl' => $dte->identificacion->numeroControl,
         'VersionDte' => 1,
         //'CorreoCliente' => "clientesfrecuentes01@gmail.com"
+        //'CorreoCliente' => "poncemarito2019@gmail.com"
         'CorreoCliente' => "clientesfrecuentes02@gmail.com"
     ];
 
