@@ -93,6 +93,9 @@ Route::get('/habitacion/guardar', [App\Http\Controllers\HabitacionController::cl
 Route::get('/dtes', [DTEController::class, 'index'])->name('dtes.index');
 Route::get('/dtes/{id}/json', [DTEController::class, 'descargarJson'])->name('dtes.descargarJson');
 Route::get('/dtes/{id}/pdf', [DTEController::class, 'verPdf'])->name('dtes.verPdf');
+Route::get('/dtes/descargar-json', [\App\Http\Controllers\DTEController::class, 'descargarJsonLote'])
+     ->name('dtes.descargarJsonLote');
+
 
 
 //Contingencia
