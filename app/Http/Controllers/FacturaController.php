@@ -8,6 +8,7 @@ use App\Models\Cotidetalle;
 use App\Models\Producto;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
+use App\Models\ConteoDTE;
 
 class FacturaController extends Controller
 {
@@ -192,7 +193,8 @@ $ultimoid = Factura::latest('id')->first();
         $cliente = Cliente::where('nombre', $factura[0]->cliente)->get() ;
 
         $actual = $factura[0]->codigo;
-        return view('facturacion.generardteconsumidor', compact('actual', 'detalles', 'cliente'));
+        $conteo = ConteoDTE::where('tipo', '01')->first();
+        return view('facturacion.generardteconsumidor', compact('actual', 'detalles', 'cliente', 'conteo'));
     }
 
      public function crearfiscal()
@@ -531,7 +533,8 @@ $ultimoid = Factura::latest('id')->first();
         $cliente = Cliente::where('nombre', $factura[0]->cliente)->get() ;
 
         $actual = $factura[0]->codigo;
-        return view('facturacion.generardteconsumidorproducto', compact('actual', 'detalles', 'cliente'));
+        $conteo = ConteoDTE::where('tipo', '01')->first();
+        return view('facturacion.generardteconsumidorproducto', compact('actual', 'detalles', 'cliente', 'conteo'));
     }
 
     /**

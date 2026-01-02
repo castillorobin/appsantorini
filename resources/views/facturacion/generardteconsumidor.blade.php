@@ -2,6 +2,7 @@
 <?php
 
 use App\Models\DocumentoDTE;
+use App\Models\ConteoDTE;
 
 ini_set('display_errors', 1);
 ini_set('display_startup_errors', 1);
@@ -255,14 +256,16 @@ $fecha_actual = date("Y-m-d");
 $hora_actual = date("h:i:s");
 
 // Función para crear el DTE
-function crearDTE($fecha_actual, $cliente, $hora_actual, $detalles) {
-    $paradte = 80000000000 + $detalles[0]->id;
+function crearDTE($fecha_actual, $cliente, $hora_actual, $detalles, $conteo) {
+    //$paradte = 80000000000 + $detalles[0]->id;
+    $correlativo = str_pad($conteo->conteo + 1, 15, '0', STR_PAD_LEFT);
+$numeroControl = "DTE-01-S001P000-" . $correlativo;
     
     $dte = new DocumentoTributarioElectronico();
 
     // Identificación
     $dte->identificacion = new Identificacion();
-    $dte->identificacion->numeroControl = "DTE-01-S001P000-0000". $paradte;
+    $dte->identificacion->numeroControl = $numeroControl;
     $dte->identificacion->codigoGeneracion = getGUID();
     $dte->identificacion->fecEmi = $fecha_actual;
     $dte->identificacion->horEmi = $hora_actual;
@@ -447,7 +450,8 @@ function enviarDTEAPI($dte) {
 // Iniciar proceso automáticamente al abrir el archivo desde el navegador
 try {
     echo "Iniciando generación de DTE...<br>";
-    $dte = crearDTE($fecha_actual, $cliente, $hora_actual, $detalles);
+    $dte = crearDTE($fecha_actual, $cliente, $hora_actual, $detalles, $conteo);
+     // Actualizar el conteo en la base de datos
     echo "DTE generado correctamente.<br>";
     echo "Iniciando transferencia a la API...<br>";
     $respuestaAPI = enviarDTEAPI($dte);
@@ -459,6 +463,19 @@ try {
         echo "Sello de recepción: " . $dte->identificacion->codigoGeneracion . "<br>";
     }
     echo "Proceso completado exitosamente.<br>";
+
+    if (isset($respuestaAPI->selloRecibido) || isset($respuestaAPI->SelloRecepcion)) {
+    // Determinar el tipo de DTE para actualizar el conteo
+    $tipo = $dte->identificacion->tipoDte;
+
+    // Obtener el registro actual
+    $conteoActual = ConteoDTE::where('tipo', $tipo)->lockForUpdate()->first();
+
+    if ($conteoActual) {
+        $conteoActual->conteo += 1;
+        $conteoActual->save();
+    }
+}
 
 
 
