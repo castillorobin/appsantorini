@@ -515,12 +515,10 @@ $dteArray = json_decode(json_encode($dte), true);
     }
 
 
-/*
 // 4) Generar PDF versión legible para entrega
 $pdf = Pdf::loadView('dtes.plantilla_pdf', ['dte' => $legible]); // $legible = tu JSON legible
 $rutaPdf = "dtes_pdfs/dte_{$codigoGeneracion}.pdf";
 Storage::put($rutaPdf, $pdf->output());
-*/
 
 // 5) Persistir en BD
 DocumentoDTE::create([
